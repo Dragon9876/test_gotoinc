@@ -26,7 +26,7 @@ export const useRequestsStore =
           set((state) => ({
             requests: state.requests.filter((req) => req.id !== requestId),
           })),
-        addPackage: (request) => set((state) => ({ requests: [...state.requests, request] })),
+        addPackage: (request) => set((state) => ({ requests: [request, ...state.requests] })),
         requests: [],
       }),
       {
