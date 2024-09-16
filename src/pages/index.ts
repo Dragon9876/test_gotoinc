@@ -1,0 +1,5 @@
+export { CreatePage } from '@/pages/create'
+export { CreateDeliverPage } from '@/pages/create-deliver'
+export { CreateOrderPage } from '@/pages/create-order'
+export { NotFoundPage } from '@/pages/not-found'
+export { RequestsPage } from '@/pages/requests'
