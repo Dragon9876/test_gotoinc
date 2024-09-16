@@ -1,5 +1,5 @@
-import { Store, useStore } from "@/app/store";
-import { FC, HTMLAttributes } from "react"
+import { useStore } from "@/app/store";
+import { FC, HTMLAttributes, useMemo } from "react"
 import { Request } from "@/shared/types/requests";
 import { Table, TableCaption, TableBody, TableHead, TableHeader, TableRow, TableCell } from "@/shared/ui/table"
 import { Button } from "@/shared/ui/button";
@@ -21,7 +21,7 @@ interface MatchedRequestsTableProps extends HTMLAttributes<'div'> {
     request: Request
 }
 
-const getMatchedRequests = (state: Store, currentRequest: Request) => {
+const getMatchedRequests = (requests: Request[], currentRequest: Request) => {
     const filterRequests = (request: Request) => {
         return request.user_id !== currentRequest.user_id 
             && request.from_city?.toLocaleLowerCase() === currentRequest.from_city?.toLocaleLowerCase() 
@@ -29,14 +29,16 @@ const getMatchedRequests = (state: Store, currentRequest: Request) => {
             && dayjs(request.date_of_dispatch).isBefore(currentRequest.date_of_dispatch)
     }
 
-    return state.requests.filter(filterRequests)
+    return requests.filter(filterRequests)
 }
 
 export const MatchedRequestsTable: FC<MatchedRequestsTableProps> = ({ request }) => {
-    const matchedRequests = useStore((state) => getMatchedRequests(state, request));
+    const { requests } = useStore();
+
+    const matchedRequestsMemo = useMemo(() => getMatchedRequests(requests, request), [requests, request]);
 
     const table = useReactTable({
-        data: matchedRequests,
+        data: matchedRequestsMemo,
         columns: columnsMatchedRequests,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
