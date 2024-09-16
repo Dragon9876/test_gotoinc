@@ -30,7 +30,7 @@ export const columnsMatchedRequests: ColumnDef<Request>[] = [ {
   },
   {
     accessorKey: "type_of_package",
-    header: () => <div className="text-right">Type of package</div>,
+    header: () => <div>Type of package</div>,
     cell: ({ row }) => {
       return <div>{row.getValue("type_of_package") || '-'}</div>
     },
